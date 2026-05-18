@@ -1,0 +1,27 @@
+{
+  "name": "Srinivasa Store",
+  "short_name": "SOS Bills",
+  "description": "Bill management app for Srinivasa Store, Amangal",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#c0522a",
+  "theme_color": "#c0522a",
+  "lang": "te",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["business", "finance"],
+  "screenshots": []
+}
