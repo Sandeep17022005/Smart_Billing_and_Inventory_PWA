@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover"/>
-<title>Srinivasa Store</title>
+<title>Smart Billing and Inventory PWA</title>
 
 <!-- ── PWA META TAGS ── -->
 <meta name="application-name" content="SOS Bills"/>
@@ -13,7 +13,7 @@
 <meta name="mobile-web-app-capable" content="yes"/>
 <meta name="theme-color" content="#c0522a"/>
 <meta name="msapplication-TileColor" content="#c0522a"/>
-<meta name="description" content="Bill management for Srinivasa Store, Amangal, Telangana"/>
+<meta name="description" content="Smart Billing and Inventory PWA — manage bills, inventory and ledger seamlessly"/>
 
 <!-- ── ICONS ── -->
 <link rel="manifest" href="manifest.json"/>
@@ -309,7 +309,7 @@ body.is-offline .topbar{padding-top:34px;}
 <div class="topbar">
   <div class="top-row">
     <div>
-      <div class="store-name brand">Srinivasa Store</div>
+      <div class="store-name brand">Smart Billing & Inventory</div>
       <div class="store-sub">Amangal, Telangana</div>
     </div>
     <button class="settings-btn" onclick="openSettings()">⚙️</button>
@@ -1080,7 +1080,7 @@ function buildBillNode(r){
   div.style.cssText = 'width:370px;background:#fff;font-family:Arial,sans-serif;border-radius:10px;overflow:hidden;';
   div.innerHTML = `
     <div style="background:#c0522a;color:#fff;padding:18px 14px;text-align:center;">
-      <div style="font-size:19px;font-weight:700;">Srinivasa Store</div>
+      <div style="font-size:19px;font-weight:700;">Smart Billing & Inventory</div>
       <div style="font-size:11px;opacity:.85;margin-top:3px;">Amangal, Telangana</div>
     </div>
     <div style="display:flex;justify-content:space-between;padding:8px 14px;background:#f7ede0;font-size:11px;color:#6b5040;border-bottom:1px dashed #e8d5c0;">
@@ -1177,7 +1177,7 @@ function shareSMS(id){
   if(!r.custPhone){ toast('No phone number saved','error'); return; }
   const st = billStatus(r);
   let lines = r.items.map(i=>`${i.name}${i.qty?' '+i.qty+'kg':''}: Rs.${i.lineTotal}`).join(', ');
-  let msg = `Srinivasa Store, Amangal. Bill#${r.billNo} ${fmtDate(r.ts)}. ${r.custName}: ${lines}. Total Rs.${r.total}.`;
+  let msg = `Smart Billing & Inventory. Bill#${r.billNo} ${fmtDate(r.ts)}. ${r.custName}: ${lines}. Total Rs.${r.total}.`;
   if(st==='partial') msg+=` Paid Rs.${r.paidAmount||0}, Due Rs.${r.total-(r.paidAmount||0)}.`;
   msg += ` Status: ${st.toUpperCase()}.`;
   window.open(`sms:+91${r.custPhone}?body=${encodeURIComponent(msg)}`,'_blank');
@@ -1376,7 +1376,7 @@ let lang = localStorage.getItem(LANG_KEY) || 'en';
 const T = {
   en: {
     // Top bar
-    storeName: 'Srinivasa Store',
+    storeName: 'Smart Billing and Inventory PWA',
     storeSub: 'Amangal, Telangana',
     // Summary
     sumBills: 'Bills',

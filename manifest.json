@@ -1,7 +1,7 @@
 {
-  "name": "Srinivasa Store",
-  "short_name": "SOS Bills",
-  "description": "Bill management app for Srinivasa Store, Amangal",
+  "name": "Smart Billing and Inventory PWA",
+  "short_name": "Smart Billing",
+  "description": "Smart Billing and Inventory management PWA for seamless billing and stock tracking",
   "start_url": "./index.html",
   "display": "standalone",
   "orientation": "portrait",

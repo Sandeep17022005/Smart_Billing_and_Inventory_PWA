@@ -1,4 +1,4 @@
-# 🛒 Srinivasa Store — Billing & Ledger PWA
+# 🧾 Smart Billing and Inventory PWA
 
 A fully offline-capable **Progressive Web App (PWA)** built with **Vanilla HTML, CSS, and JavaScript** — no frameworks, no dependencies.
 
@@ -23,6 +23,7 @@ A fully offline-capable **Progressive Web App (PWA)** built with **Vanilla HTML,
 
 - 📋 **Bill Management** — Create and track customer bills
 - 💰 **Revenue Dashboard** — Live totals for revenue and unpaid amounts
+- 📦 **Inventory Tracking** — Manage stock and product listings
 - 📖 **Ledger System** — Track customer credit/debit history
 - 🔍 **Search** — Search bills by Bill ID or customer name
 - 📲 **Installable PWA** — Works on Android, iOS, and Desktop
@@ -34,7 +35,7 @@ A fully offline-capable **Progressive Web App (PWA)** built with **Vanilla HTML,
 ## 📁 Project Structure
 
 ```
-srini_pwa/
+Smart-Billing-Inventory-PWA/
 ├── index.html       # Main app (HTML + embedded CSS + JS)
 ├── manifest.json    # PWA manifest for installability
 ├── sw.js            # Service Worker for offline caching
@@ -68,4 +69,4 @@ This project demonstrates proficiency in:
 
 ---
 
-*Built for Srinivasa Store, Amangal, Telangana*
+*Smart Billing and Inventory PWA — Simple. Fast. Offline-first.*
