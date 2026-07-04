@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover"/>
+<title>Srinivasa Store</title>
+
+<!-- ── PWA META TAGS ── -->
+<meta name="application-name" content="SOS Bills"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="SOS Bills"/>
+<meta name="mobile-web-app-capable" content="yes"/>
+<meta name="theme-color" content="#8a2a1f"/>
+<meta name="msapplication-TileColor" content="#8a2a1f"/>
+<meta name="description" content="Bill management for Srinivasa Store, Amangal, Telangana"/>
+
+<!-- ── ICONS ── -->
+<link rel="manifest" href="manifest.json"/>
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png"/>
+<link rel="apple-touch-icon" href="icon-192.png"/>
+<link rel="apple-touch-icon" sizes="512x512" href="icon-512.png"/>
+
+<!-- ── GOOGLE FONTS (Fixed Loading Issue) ── -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<!-- ── STYLESHEET (Modularized) ── -->
+<link rel="stylesheet" href="index.css">
+
+<!-- ── EXTERNAL LIBRARIES (Fixed Missing Loaders) ── -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<!-- ── APPLICATION LOGIC (Modularized) ── -->
+<script src="app.js" defer></script>
+</head>
+<body>
+
+<!-- OFFLINE BANNER -->
+<div id="offline-banner">📵 Offline — all data saved locally</div>
+
+<!-- PWA INSTALL BANNER -->
+<div id="install-banner">
+  <div class="ib-text">
+    <strong>Install App</strong>
+    Add to home screen for offline use
+  </div>
+  <button class="ib-btn" id="install-btn">Install</button>
+  <button class="ib-close" onclick="dismissInstall()">✕</button>
+</div>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="top-row">
+    <div>
+      <div class="store-name brand">Srinivasa Store</div>
+      <div class="store-sub">Amangal, Telangana</div>
+    </div>
+    <button class="settings-btn" onclick="openSettings()">⚙️</button>
+  </div>
+</div>
+
+<!-- SUMMARY STRIP -->
+<div class="summary" id="summary-strip">
+  <div class="summary-item">
+    <div class="val" id="sum-count">0</div>
+    <div class="lbl" id="sum-count-lbl">Bills</div>
+  </div>
+  <div class="summary-item">
+    <div class="val" id="sum-revenue">₹0</div>
+    <div class="lbl" id="sum-revenue-lbl">Revenue</div>
+  </div>
+  <div class="summary-item">
+    <div class="val red" id="sum-unpaid">₹0</div>
+    <div class="lbl" id="sum-unpaid-lbl">Unpaid</div>
+  </div>
+</div>
+
+<!-- SCREEN: RECORDS LIST -->
+<div id="screen-list">
+  <div class="search-bar">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="search-input" placeholder="Search by Bill ID or customer name…" oninput="onSearch()" autocomplete="off"/>
+    <button class="search-clear" id="search-clear" onclick="clearSearch()" style="display:none;">✕</button>
+  </div>
+  <div id="records-container" style="padding-top:10px;"></div>
+</div>
+
+<!-- BOTTOM ACTION BAR -->
+<div class="bottom-bar">
+  <button class="bb-ledger" onclick="openLedger()">📒 Ledger</button>
+  <button class="bb-add" onclick="openAddBill()">+ <span id="bb-add-label">Add Bill</span></button>
+</div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<!-- ═══════════════════════════════════════════
+     OVERLAYS & SHEETS
+     ═══════════════════════════════════════════ -->
+<div class="overlay" id="overlay" onclick="closeAllSheets()"></div>
+
+<!-- ── ADD BILL SHEET ── -->
+<div class="sheet" id="sheet-add">
+  <div class="sheet-handle"></div>
+  <div class="sheet-head-row">
+    <div class="sheet-title" style="padding:4px 0 12px;border:none;" id="add-bill-title">Add Bill</div>
+    <button class="sheet-close-btn" onclick="closeAddBill()">✕</button>
+  </div>
+  <div class="steps">
+    <div class="step active" id="step-1-bar"></div>
+    <div class="step" id="step-2-bar"></div>
+  </div>
+
+  <!-- STEP 1: Customer -->
+  <div class="sheet-body" id="step-1">
+    <div class="section-title" id="lbl-recent-customers">Recent Customers</div>
+    <div class="quick-scroll" id="quick-customers"></div>
+    <div class="sep mt8"></div>
+    <div class="field">
+      <label id="lbl-cust-name">Customer Name</label>
+      <div class="autocomplete-box">
+        <input type="text" id="inp-name" placeholder="Type or select above…" oninput="onNameInput()" autocomplete="off"/>
+        <div class="autocomplete-dropdown" id="ac-dropdown"></div>
+      </div>
+    </div>
+    <div class="field" id="phone-field">
+      <label id="lbl-phone">Phone Number <span id="lbl-phone-opt" class="text-muted" style="text-transform:none;letter-spacing:0;">(optional — can add later)</span></label>
+      <input type="tel" id="inp-phone" placeholder="10-digit mobile" maxlength="10"/>
+    </div>
+    <button class="btn btn-primary" id="btn-continue" onclick="goStep2()">Continue →</button>
+  </div>
+
+  <!-- STEP 2: Items -->
+  <div class="sheet-body" id="step-2" style="display:none;">
+    <div class="section-title" id="lbl-select-items">Select Items</div>
+    <div class="item-grid" id="item-grid"></div>
+    <div class="item-details" id="item-details"></div>
+    <div class="sep"></div>
+    <div class="section-title" id="lbl-payment">Payment</div>
+    <div class="pay-toggle">
+      <div class="pay-opt" id="pay-opt-paid" onclick="setPayStatus('paid')">✓ Paid</div>
+      <div class="pay-opt" id="pay-opt-partial" onclick="setPayStatus('partial')">≈ Partial</div>
+      <div class="pay-opt active-unpaid" id="pay-opt-unpaid" onclick="setPayStatus('unpaid')">✗ Unpaid</div>
+    </div>
+    <div class="partial-field" id="partial-field">
+      <label id="lbl-amt-paid">Amount Paid Now (₹)</label>
+      <input type="number" id="inp-partial" placeholder="e.g. 200" min="0"/>
+      <div class="partial-note" id="partial-note">Remaining will be tracked as outstanding balance.</div>
+    </div>
+    <button class="btn btn-primary" id="btn-save-bill" onclick="saveBill()">Save &amp; Generate Bill</button>
+  </div>
+</div>
+
+<!-- ── BILL VIEW SHEET ── -->
+<div class="sheet" id="sheet-bill">
+  <div class="sheet-handle"></div>
+  <div class="sheet-body" id="bill-view-body"></div>
+</div>
+
+<!-- ── LEDGER SHEET ── -->
+<div class="sheet" id="sheet-ledger">
+  <div class="sheet-handle"></div>
+  <div class="sheet-head-row">
+    <div class="sheet-title" style="padding:4px 0 12px;border:none;" id="ledger-sheet-title">Customer Ledger</div>
+    <button class="sheet-close-btn" onclick="closeLedger()">✕</button>
+  </div>
+  <div class="sheet-body" id="ledger-body"></div>
+</div>
+
+<!-- ── LEDGER DETAIL SHEET ── -->
+<div class="sheet" id="sheet-ledger-detail">
+  <div class="sheet-handle"></div>
+  <div class="sheet-head-row">
+    <div class="sheet-title" style="padding:4px 0 12px;border:none;" id="ledger-detail-title">Customer</div>
+    <button class="sheet-close-btn" onclick="closeLedgerDetail()">✕</button>
+  </div>
+  <div id="ledger-detail-body"></div>
+</div>
+
+<!-- ── SETTINGS SHEET ── -->
+<div class="sheet" id="sheet-settings">
+  <div class="sheet-handle"></div>
+  <div class="sheet-head-row">
+    <div class="sheet-title" style="padding:4px 0 12px;border:none;" id="settings-sheet-title">Settings</div>
+    <button class="sheet-close-btn" onclick="closeSettings()">✕</button>
+  </div>
+  <div class="sheet-body">
+    <!-- Language Toggle -->
+    <div class="settings-item settings-lang-row">
+      <label id="lbl-language-setting" class="settings-lang-label">🌐 Language / భాష</label>
+      <div class="settings-lang-toggle">
+        <div id="lang-btn-en" class="pay-opt active-paid" onclick="setLang('en')">🇬🇧 English</div>
+        <div id="lang-btn-te" class="pay-opt" onclick="setLang('te')">🇮🇳 తెలుగు</div>
+      </div>
+    </div>
+    <div class="sep"></div>
+    <div class="settings-item">
+      <label id="lbl-sheets-url">Google Sheets URL</label>
+      <input type="text" id="settings-sheets-url" placeholder="Paste Web App URL" onchange="saveSheetsUrl()"/>
+    </div>
+    <div class="sep"></div>
+    <p class="settings-hint" id="lbl-sheets-hint">Paste your Google Apps Script deployment URL above to sync bills to Google Sheets automatically.</p>
+    <div class="sep"></div>
+    
+    <!-- Sync Engine Trigger -->
+    <button class="btn-sheets-sync" id="btn-sync-sheets" onclick="syncWithSheets()">🔄 Sync Google Sheets</button>
+    <div class="sep"></div>
+    
+    <!-- Backup / Restore Section -->
+    <div class="section-title" id="lbl-backup-section" style="margin-top:10px;">Database Backup & Restore</div>
+    <div class="settings-btn-group">
+      <button class="btn-backup-export" id="btn-export-backup" onclick="exportBackup()">📥 Export Backup</button>
+      <button class="btn-backup-import" id="btn-import-backup" onclick="document.getElementById('backup-import-file').click()">📤 Import Backup</button>
+    </div>
+    <input type="file" id="backup-import-file" accept=".json" style="display:none" onchange="importBackup(event)"/>
+    <div class="sep"></div>
+    
+    <button class="btn-outline" id="btn-clear-data" style="margin-top:8px;" onclick="clearData()">🗑 Clear All Data</button>
+  </div>
+</div>
+
+</body>
+</html>
