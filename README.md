@@ -1,72 +1,68 @@
 # 🧾 Smart Billing and Inventory PWA
 
-A fully offline-capable **Progressive Web App (PWA)** built with **Vanilla HTML, CSS, and JavaScript** — no frameworks, no dependencies.
+A lightweight, offline-capable Progressive Web App for managing bills, inventory, and customer balances using only plain HTML, CSS, and JavaScript.
 
-🔗 **Live Demo:** https://sandeep17022005.github.io/Srinivasa_PWA_app/
+🔗 Live Demo: https://sandeep17022005.github.io/Smart_Billing_and_Inventory_PWA/
+
+---
+
+## ✨ What this app does
+
+- Create and manage customer bills
+- Track revenue and unpaid balances
+- Maintain inventory items and stock details
+- Record customer credit and debit activity
+- Search bills quickly by ID or customer name
+- Work offline after the first load
+- Install it like a native app on mobile or desktop
 
 ---
 
 ## 🛠️ Tech Stack
 
-| Technology | Usage |
-|---|---|
-| **HTML5** | App structure & semantic layout |
-| **CSS3** | Styling, animations, responsive design |
-| **JavaScript (ES6+)** | App logic, data handling, DOM manipulation |
-| **Web App Manifest** | PWA installability on mobile & desktop |
-| **Service Worker API** | Offline support & asset caching |
-| **localStorage API** | Persistent data storage (no backend needed) |
-
----
-
-## ✨ Features
-
-- 📋 **Bill Management** — Create and track customer bills
-- 💰 **Revenue Dashboard** — Live totals for revenue and unpaid amounts
-- 📦 **Inventory Tracking** — Manage stock and product listings
-- 📖 **Ledger System** — Track customer credit/debit history
-- 🔍 **Search** — Search bills by Bill ID or customer name
-- 📲 **Installable PWA** — Works on Android, iOS, and Desktop
-- ✈️ **Offline Support** — Fully functional without internet
-- 💾 **No Backend** — All data stored locally on the device
+- HTML5 for structure
+- CSS3 for responsive styling
+- JavaScript for app logic and local data handling
+- Web App Manifest for installability
+- Service Worker for offline caching
+- localStorage for persistent client-side storage
 
 ---
 
 ## 📁 Project Structure
 
-```
-Smart-Billing-Inventory-PWA/
-├── index.html       # Main app (HTML + embedded CSS + JS)
-├── manifest.json    # PWA manifest for installability
-├── sw.js            # Service Worker for offline caching
-├── icon-192.png     # App icon (192x192)
-└── icon-512.png     # App icon (512x512)
+```text
+Smart_Billing_and_Inventory_PWA/
+├── index.html
+├── index.css
+├── app.js
+├── manifest.json
+├── sw.js
+├── icon-192.png
+├── icon-512.png
+└── README.md
 ```
 
 ---
 
-## 🚀 How to Run Locally
+## 🚀 Run locally
 
-No build tools needed — just open in a browser:
+No build step is required. You can open the app directly in a browser:
 
 ```bash
-git clone https://github.com/Sandeep17022005/Srinivasa_PWA_app.git
-cd Srinivasa_PWA_app
+git clone https://github.com/Sandeep17022005/Smart_Billing_and_Inventory_PWA.git
+cd Smart_Billing_and_Inventory_PWA
 # Open index.html in your browser
 ```
 
-Or use VS Code Live Server for full PWA features (service worker requires HTTPS or localhost).
+For full PWA behavior, use a local server such as VS Code Live Server or run it from localhost.
 
 ---
 
-## 👨‍💻 Built With Pure Web Technologies
+## 📦 GitHub Repository
 
-This project demonstrates proficiency in:
-- Writing **clean, maintainable JavaScript** without frameworks
-- Building **real-world apps** with plain HTML & CSS
-- Implementing **PWA standards** (manifest, service worker, caching strategies)
-- Managing **client-side state** with localStorage
+Repository: https://github.com/Sandeep17022005/Smart_Billing_and_Inventory_PWA
 
 ---
 
-*Smart Billing and Inventory PWA — Simple. Fast. Offline-first.*
+Smart Billing and Inventory PWA — simple, fast, and offline-friendly.
